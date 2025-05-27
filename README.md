@@ -1,2 +1,2 @@
 # djangify-infra
-Es de prueba chavales
+MAIN
