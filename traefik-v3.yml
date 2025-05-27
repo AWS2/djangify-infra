@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  traefik:
+    image: traefik:v3.0
+    command:
+      - "--configFile=/etc/traefik/traefik_static.yml"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    # - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik_static.yml:/etc/traefik/traefik_static.yml
+    networks:
+      - net
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+  nginx:
+    image: nginx:alpine
+    networks:
+      - net
+    volumes:
+      - /home/super/nginx1/html:/usr/share/nginx/html:ro
+    deploy:
+      replicas: 4
+      labels:
+        - "traefik.enable=true"
+        - 'traefik.http.routers.nginx.rule=Host("djangify-prueba1.ieti.site")'
+        - "traefik.http.routers.nginx.entrypoints=web"
+        - "traefik.http.services.nginx.loadbalancer.server.port=80"
+
+  nginx2:
+    image: nginx:alpine
+    networks:
+      - net
+    volumes:
+      - /home/super/nginx2/html:/usr/share/nginx/html:ro
+    deploy:
+      replicas: 4
+      labels:
+        - "traefik.enable=true"
+        - 'traefik.http.routers.nginx2.rule=Host("djangify-prueba2.ieti.site")'
+        - "traefik.http.routers.nginx2.entrypoints=web"
+        - "traefik.http.services.nginx2.loadbalancer.server.port=80"
+
+
+networks:
+  net:
+    external: true
