@@ -1,2 +1,2 @@
 # djangify-infra
-MAIN
+Funciona a Partir de docker-compose.yml
