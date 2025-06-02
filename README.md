@@ -1,2 +1,3 @@
 # djangify-infra
-Es de prueba chavale
+
+Django para que funcione con stack y gunicorn
