@@ -1,6 +1,6 @@
 Django==5.2.1
 gunicorn==23.0.0
-mysqlclient
+pymysql==1.1.0
 whitenoise
 python-dotenv
 
