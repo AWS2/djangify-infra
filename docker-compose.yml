@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: djangodb
+      MYSQL_USER: django
+      MYSQL_PASSWORD: django
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      DEBUG: 1
+      DJANGO_DB_HOST: db
+      DJANGO_DB_PORT: 3306
+      DJANGO_DB_NAME: djangodb
+      DJANGO_DB_USER: django
+      DJANGO_DB_PASSWORD: django
+    depends_on:
+      - db
+    command: >
+      sh -c "
+        echo 'Esperando a que MySQL esté disponible...' &&
+        python wait_for_mysql.py &&
+        python manage.py migrate &&
+        python manage.py runserver 0.0.0.0:8000
+      "
+
+volumes:
+  db_data:
