@@ -3,15 +3,21 @@ services:
     build: .
     ports:
       - "8000:8000"
-    depends_on:
-      - db
+    networks:
+      - net
     environment:
-      - DEBUG=1
-      - DJANGO_DB_HOST=db
-      - DJANGO_DB_PORT=3306
-      - DJANGO_DB_NAME=djangodb
-      - DJANGO_DB_USER=django
-      - DJANGO_DB_PASSWORD=django
+      DEBUG: "0"
+      DJANGO_DB_HOST: 192.168.152.104
+      DJANGO_DB_PORT: 3306
+      DJANGO_DB_NAME: djangodb
+      DJANGO_DB_USER: django
+      DJANGO_DB_PASSWORD: django
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.djangify.rule=Host(`djangify.ieti.site`)"
+      - "traefik.http.routers.djangify.entrypoints=web"
+      - "traefik.http.services.djangify.loadbalancer.server.port=8000"
+      - "traefik.docker.network=traefik-public"
     volumes:
       - .:/app
     command: >
@@ -22,18 +28,6 @@ services:
         python manage.py migrate &&
         python manage.py runserver 0.0.0.0:8000
        "
-
-
-  db:
-    image: mysql:8
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: djangodb
-      MYSQL_USER: django
-      MYSQL_PASSWORD: django
-    volumes:
-      - db_data:/var/lib/mysql
-
-volumes:
-  db_data:
+networks:
+ net:
+   external: true

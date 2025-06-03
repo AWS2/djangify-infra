@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-7l1x7n!4=)-i@r1fg%+3-#8bbh6)ez-76=p)8mopjin=$rt9#p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.122.187', 'localhost','127.0.0.1']
+ALLOWED_HOSTS = ['djangify-django.ieti.site', 'localhost','127.0.0.1']
 
 
 # Application definition
@@ -81,11 +81,11 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("DJANGO_DB_NAME", "djangodb"),
-        'USER': os.getenv("DJANGO_DB_USER", "django"),
-        'PASSWORD': os.getenv("DJANGO_DB_PASSWORD", "django"),
-        'HOST': os.getenv("DJANGO_DB_HOST", "db"),
-        'PORT': os.getenv("DJANGO_DB_PORT", "3306"),
+        'NAME': os.environ.get('DJANGO_DB_NAME'),
+        'USER': os.environ.get('DJANGO_DB_USER'),
+        'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD'),
+        'HOST': os.environ.get('DJANGO_DB_HOST'),
+        'PORT': os.environ.get('DJANGO_DB_PORT', '3306'),
     }
 }
 
