@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: djangodb
+      MYSQL_USER: django
+      MYSQL_PASSWORD: django
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - net
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == swarm24
+      replicas: 1
+
+volumes:
+  db_data:
+
+networks:
+  net:
+    external: true
+    name: traefik_net
