@@ -18,5 +18,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copia tot el projecte
 COPY . .
 
+RUN python manage.py collectstatic --noinput
+
 # Lanza gunicorn al arrancar el contenedor
 CMD ["gunicorn", "webapp.wsgi:application", "--bind", "0.0.0.0:8000"]
