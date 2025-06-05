@@ -23,10 +23,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-7l1x7n!4=)-i@r1fg%+3-#8bbh6)ez-76=p)8mopjin=$rt9#p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['djangify-django.ieti.site', 'localhost','127.0.0.1']
 
+# Security URL
+CSRF_TRUSTED_ORIGINS = [
+    "https://djangify-django.ieti.site"
+]
+
+# Configuration for cookies and ssl proxy behind Traefik
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 

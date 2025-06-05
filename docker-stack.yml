@@ -18,7 +18,7 @@ services:
         - "traefik.docker.network=traefik_net"
 
     environment:
-      - DJANGO_DB_HOST=192.168.152.104
+      - DJANGO_DB_HOST=db
       - DJANGO_DB_PORT=3306
       - DJANGO_DB_NAME=djangodb
       - DJANGO_DB_USER=django
