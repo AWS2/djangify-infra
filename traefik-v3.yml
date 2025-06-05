@@ -19,35 +19,7 @@ services:
         constraints:
           - node.role == manager
 
-  nginx:
-    image: nginx:alpine
-    networks:
-      - net
-    volumes:
-      - /home/super/nginx1/html:/usr/share/nginx/html:ro
-    deploy:
-      replicas: 4
-      labels:
-        - "traefik.enable=true"
-        - 'traefik.http.routers.nginx.rule=Host("djangify-prueba1.ieti.site")'
-        - "traefik.http.routers.nginx.entrypoints=web"
-        - "traefik.http.services.nginx.loadbalancer.server.port=80"
-
-  nginx2:
-    image: nginx:alpine
-    networks:
-      - net
-    volumes:
-      - /home/super/nginx2/html:/usr/share/nginx/html:ro
-    deploy:
-      replicas: 4
-      labels:
-        - "traefik.enable=true"
-        - 'traefik.http.routers.nginx2.rule=Host("djangify-prueba2.ieti.site")'
-        - "traefik.http.routers.nginx2.entrypoints=web"
-        - "traefik.http.services.nginx2.loadbalancer.server.port=80"
-
-
 networks:
   net:
     external: true
+    name: traefik_net
